@@ -1,4 +1,5 @@
-FROM fedora:40
+ARG img_version
+FROM godot-msep-fedora:${img_version}
 
 WORKDIR /root
 

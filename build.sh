@@ -40,7 +40,8 @@ fi
 
 mkdir -p logs
 
-"$podman" build -t godot-fedora:${img_version} -f Dockerfile.base . 2>&1 | tee logs/base.log
+"$podman" build -t godot-msep-fedora:${img_version} -f Dockerfile.msep . 2>&1 | tee logs/msep.log
+"$podman" build --build-arg img_version=${img_version} -t godot-fedora:${img_version} -f Dockerfile.base . 2>&1 | tee logs/base.log
 
 podman_build() {
   # You can add --no-cache as an option to podman_build below to rebuild all containers from scratch.
@@ -55,9 +56,6 @@ podman_build() {
 podman_build linux
 podman_build windows
 
-podman_build web
-podman_build android
-
 XCODE_SDK=15.4
 OSX_SDK=14.5
 IOS_SDK=17.5
@@ -70,7 +68,7 @@ if [ ! -e "${files_root}"/MacOSX${OSX_SDK}.sdk.tar.xz ] || [ ! -e "${files_root}
   fi
 
   echo "Building OSX and iOS SDK packages. This will take a while"
-  podman_build xcode
+ podman_build xcode
   "$podman" run -it --rm \
     -v "${files_root}":/root/files:z \
     -e XCODE_SDKV="${XCODE_SDK}" \
@@ -81,4 +79,4 @@ if [ ! -e "${files_root}"/MacOSX${OSX_SDK}.sdk.tar.xz ] || [ ! -e "${files_root}
 fi
 
 podman_build osx
-podman_build ios
+podman_build msep.osx
