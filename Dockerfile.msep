@@ -2,5 +2,5 @@ FROM fedora:40
 WORKDIR /root
 
 RUN dnf -y install cmake --setopt=install_weak_deps=False
-
+ENV ON_CONTAINER=1
 CMD /bin/bash
