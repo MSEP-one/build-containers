@@ -1,6 +1,12 @@
 FROM fedora:40
 WORKDIR /root
 
-RUN dnf -y install cmake libtool --setopt=install_weak_deps=False
+RUN dnf -y install cmake make autoconf libstdc++-devel g++ libtool zip  --setopt=install_weak_deps=False
 ENV ON_CONTAINER=1
+# MACOS Specific stuff:
+RUN curl -L -o /tmp/lipo https://github.com/konoui/lipo/releases/latest/download/lipo_Linux_amd64 > /usr/local/bin/lipo && chmod +x /usr/local/bin/lipo
+RUN curl -OL https://github.com/godotengine/moltenvk-osxcross/releases/download/vulkan-sdk-1.3.283.0-2/MoltenVK-all.tar && tar -xf MoltenVK-all.tar
+RUN mkdir -p "macOS"
+RUN mv "MoltenVK/MoltenVK/static" "macOS/lib"
+RUN rm -rf "MoltenVK-all.tar"
 CMD /bin/bash

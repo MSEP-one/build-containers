@@ -67,7 +67,7 @@ if [ ! -e "${files_root}"/MacOSX${OSX_SDK}.sdk.tar.xz ] || [ ! -e "${files_root}
     exit 1
   fi
 
-  echo "Building OSX and iOS SDK packages. This will take a while"
+ echo "Building OSX and iOS SDK packages. This will take a while"
  podman_build xcode
   "$podman" run -it --rm \
     -v "${files_root}":/root/files:z \
@@ -76,7 +76,6 @@ if [ ! -e "${files_root}"/MacOSX${OSX_SDK}.sdk.tar.xz ] || [ ! -e "${files_root}
     -e IOS_SDKV="${IOS_SDK}" \
     godot-xcode:${img_version} \
     2>&1 | tee logs/xcode_packer.log
-fi
+ fi
 
 podman_build osx
-podman_build msep.osx
